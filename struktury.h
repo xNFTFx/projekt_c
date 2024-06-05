@@ -6,7 +6,7 @@ typedef struct Data{
 } Data;
 
 typedef struct Sala{
-    char nr_sali;
+    int nr_sali;
 }Sala;
 
 typedef struct Rezerwacja{
