@@ -1,0 +1,14 @@
+void zapis_rezerwacji_do_pliku_txt(const char* nazwa_pliku) {
+    FILE* plik = fopen(nazwa_pliku, "a"); // Otwórz plik w trybie dodawania (append)
+    if (plik != NULL) {
+        for (int i = 0; i < liczba_rezerwacji; i++) {
+            fprintf(plik, "ID Rezerwacji: %d, ID Sali: %d, Data: %02d-%02d-%04d, Nazwisko: %s\n",
+                rezerwacje[i].id_rezerwacji, rezerwacje[i].id_sali, rezerwacje[i].data.dzien,
+                rezerwacje[i].data.miesiac, rezerwacje[i].data.rok, rezerwacje[i].nazwisko);
+        }
+        fclose(plik);
+        printf("Zapisano rezerwacje do pliku %s\n", nazwa_pliku);
+    } else {
+        printf("Błąd przy zapisie do pliku\n");
+    }
+}
