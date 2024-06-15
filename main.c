@@ -2,6 +2,7 @@
 #include "struktury.h"
 #include "rezerwacje.h"
 #include "lista_rezerwacji.h"
+#include "test.h"
 
 
 int main() {
@@ -12,6 +13,7 @@ int main() {
     Rezerwacja lista_rezerwacji[1000];
     int liczba_rezerwacji = 0;
 
+    Dupa();
 
     do {
         printf("\nSystem rezerwacji sal\n");
@@ -29,7 +31,6 @@ int main() {
         } else if (wybor == 2) {
             // kod do anulowania rezerwacji
         } else if (wybor == 3) {
-            pokaz_wszystkie_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 4) {
 
         } else if (wybor == 6) {
