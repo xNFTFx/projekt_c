@@ -2,7 +2,7 @@
 #include "struktury.h"
 
 void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pliku, int liczba_rezerwacji) {
-    FILE* plik = fopen(nazwa_pliku, "a"); // Otwórz plik w trybie dodawania (append)
+    FILE* plik = fopen(nazwa_pliku, "w");
     if (plik != NULL) {
         for (int i = 0; i < liczba_rezerwacji; i++) {
             fprintf(plik, "%d %d %d %d\n",

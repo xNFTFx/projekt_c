@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include "struktury.h"
+
+
+int wczytanie_z_pliku(char* src_file, Rezerwacja *lista_rezerwacji){
+    FILE *plik;
+    plik = fopen(src_file, "r");
+    int i =0;
+    while (!feof(plik))
+    {
+        fscanf(plik, "%d %d %d %d", &lista_rezerwacji[i].id, &lista_rezerwacji[i].sala_rezerwowana.nr_sali, &lista_rezerwacji[i].data_rezerwacji.dzien, &lista_rezerwacji[i].data_rezerwacji.h);
+        i++;
+    }
+    return i;
+}

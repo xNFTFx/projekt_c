@@ -1,6 +1,18 @@
 #include <stdio.h>
 #include "struktury.h"
 
+int wczytanie_z_pliku(char* src_file, Rezerwacja *lista_rezerwacji){
+    FILE *plik;
+    plik = fopen(src_file, "r");
+    int i =0;
+    while (!feof(plik))
+    {
+        fscanf(plik, "%d %d %d %d", &lista_rezerwacji[i].id, &lista_rezerwacji[i].sala_rezerwowana.nr_sali, &lista_rezerwacji[i].data_rezerwacji.dzien, &lista_rezerwacji[i].data_rezerwacji.h);
+        i++;
+    }
+    return i;
+}
+
 void pokaz_wszystkie_rezerwacje(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
     if (liczba_rezerwacji == 0) {
         printf("Brak rezerwacji.\n");
@@ -72,7 +84,7 @@ int nowa_rezerwacja(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
   
 
 
-    printf("ID rezerwacji: %d\nZarezerwowales sale: %d, dnia %d, o godzinie %d\n",nowa.id, nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
+    printf("\nID rezerwacji: %d\nZarezerwowales sale: %d, dnia %d, o godzinie %d\n",nowa.id, nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
 
     return liczba_rezerwacji;
 }
@@ -123,13 +135,26 @@ int anuluj_rezerwacje(Rezerwacja *rezerwacje, int liczba_rezerwacji) {
     return liczba_rezerwacji;
 }
 
+void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pliku, int liczba_rezerwacji) {
+    FILE* plik = fopen(nazwa_pliku, "w");
+    if (plik != NULL) {
+        for (int i = 0; i < liczba_rezerwacji; i++) {
+            fprintf(plik, "\n%d %d %d %d",
+                rezerwacje[i].id, rezerwacje[i].sala_rezerwowana.nr_sali, rezerwacje[i].data_rezerwacji.dzien, rezerwacje[i].data_rezerwacji.h);
+        }
+        fclose(plik);
+        printf("Zapisano rezerwacje do pliku %s\n", nazwa_pliku);
+    } else {
+        printf("Błąd przy zapisie do pliku\n");
+    }
+}
+
 int main() {
     int wybor;
 
-    //funkcja odczytujaca plik
-
     Rezerwacja lista_rezerwacji[1000];
-    int liczba_rezerwacji = 0;
+
+    int liczba_rezerwacji =    wczytanie_z_pliku("src.txt", lista_rezerwacji);
 
     do {
         printf("\nSystem rezerwacji sal\n");
@@ -137,7 +162,6 @@ int main() {
         printf("2. Anuluj rezerwacje\n");
         printf("3. Pokaz wszystkie rezerwacje\n");
         printf("4. Pokaz rezerwacje z konkretnego dnia\n");
-        printf("6. Zapisz rezerwacje do pliku\n");
         printf("0. Wyjdz\n\n");
         printf("Wybierz opcje: ");
         scanf("%d", &wybor);
@@ -146,20 +170,17 @@ int main() {
         if (wybor == 1) {
             liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 2) {
-            anuluj_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
+            liczba_rezerwacji=anuluj_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 3) {
             pokaz_wszystkie_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 4) {
             pokaz_rezerwacje_z_dnia(lista_rezerwacji, liczba_rezerwacji);
-        } else if (wybor == 6) {
-            char nazwa_pliku[50];
-            printf("Podaj nazwe pliku do zapisu: ");
-            scanf("%49s", nazwa_pliku);
-            // zapis_rezerwacji_do_pliku_txt(nazwa_pliku);
         } else if (wybor != 0) {
             printf("Podales zla wartosc\n");
         }
     } while (wybor != 0);
+
+    zapis_rezerwacji_do_pliku_txt(lista_rezerwacji, "src.txt", liczba_rezerwacji);
 
     return 0;
 }
