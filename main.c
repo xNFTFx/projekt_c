@@ -13,8 +13,6 @@ int main() {
     Rezerwacja lista_rezerwacji[1000];
     int liczba_rezerwacji = 0;
 
-    Dupa();
-
     do {
         printf("\nSystem rezerwacji sal\n");
         printf("1. Dodaj rezerwacje\n");
@@ -25,14 +23,17 @@ int main() {
         printf("0. Wyjdz\n");
         printf("Wybierz opcje: ");
         scanf("%d", &wybor);
+        printf("\n");
 
-        if (wybor == 1) {
 
+if (wybor == 1) {
+            liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 2) {
             // kod do anulowania rezerwacji
         } else if (wybor == 3) {
+            pokaz_wszystkie_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 4) {
-
+            pokaz_rezerwacje_z_dnia(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 6) {
             char nazwa_pliku[50];
             printf("Podaj nazwe pliku do zapisu: ");
@@ -41,6 +42,7 @@ int main() {
         } else if (wybor != 0) {
             printf("Podales zla wartosc\n");
         }
+        
     } while (wybor != 0);
 
     return 0;

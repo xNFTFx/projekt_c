@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "struktury.h"
 
-void usun_rezerwacje_z_pliku(const char* nazwa_pliku, int id_rez, Data data) {
+void usun_rezerwacje_z_pliku(const char* nazwa_pliku, int id_rez) {
     FILE* plik = fopen(nazwa_pliku, "r");
     FILE* tmp = fopen("tmp.txt", "w");
     if (plik != NULL && tmp != NULL) {
@@ -10,7 +10,7 @@ void usun_rezerwacje_z_pliku(const char* nazwa_pliku, int id_rez, Data data) {
             int rez_id, sala_id, dzien, godzina;
             if (sscanf(linia, "%d %d %d %d/n",
                        &rez_id, &sala_id, &dzien, &godzina) == 4) {
-                if (!(rez_id == id_rez && dzien == data.dzien && godzina == data.h)) {
+                if (!(rez_id == id_rez)) {
                     fputs(linia, tmp);
                 }
             }
@@ -26,17 +26,20 @@ void usun_rezerwacje_z_pliku(const char* nazwa_pliku, int id_rez, Data data) {
 }
 
 
-void anuluj_rezerwacje(Rezerwacja *rezerwacje, int id_rez, Data data, int liczba_rezerwacji) {
+void anuluj_rezerwacje(Rezerwacja *rezerwacje, int liczba_rezerwacji) {
+    int id_rez = 0;
+    printf("Podaj id rezerwacji ktora chcesz usunac: ");
+    scanf("%d", &id_rez);
+    printf("\n");
     for (int i = 0; i < liczba_rezerwacji; i++) {
-        if (rezerwacje[i].id== id_rez && rezerwacje[i].data_rezerwacji.dzien == data.dzien &&
-            rezerwacje[i].data_rezerwacji.h == data.h) {
+        if (rezerwacje[i].id == id_rez) {
             for (int j = i; j < liczba_rezerwacji - 1; j++) {
                 rezerwacje[j] = rezerwacje[j + 1];
             }
             liczba_rezerwacji--;
             
             // Dodatkowo usuwamy rezerwację z pliku
-            usun_rezerwacje_z_pliku("rezerwacje.txt", id_rez, data);
+            usun_rezerwacje_z_pliku("rezerwacje.txt", id_rez);
             
             break;
         }
