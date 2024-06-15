@@ -54,10 +54,20 @@ void pokaz_rezerwacje_z_dnia(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji
     }
 }
 
+int wolna_sala(Rezerwacja nowa,  Rezerwacja *rezerwacje, int liczba_rezerwacji){
+    for(int i = 0; i<liczba_rezerwacji; i++){
+        if(nowa.data_rezerwacji.dzien == rezerwacje[i].data_rezerwacji.dzien && nowa.data_rezerwacji.h == rezerwacje[i].data_rezerwacji.h && nowa.sala_rezerwowana.nr_sali == rezerwacje[i].sala_rezerwowana.nr_sali){
+            printf("Ta sala jest juz zarezerwowana o tej godzinie\n");
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int nowa_rezerwacja(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
 
     Rezerwacja nowa;
-    nowa.id = liczba_rezerwacji + 1;
+    nowa.id = lista_rezerwacji[liczba_rezerwacji-1].id + 1;
 
     printf("Podaj dzien, kiedy chcesz zarezerwowac sale: ");
     if (scanf("%d", &nowa.data_rezerwacji.dzien) != 1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien < 1) {
@@ -77,13 +87,13 @@ int nowa_rezerwacja(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
         return liczba_rezerwacji;
     }
     
-    //dodaj weryfikacje tego czy sala nie byla juz zarezerwowana
+    if(wolna_sala(nowa, lista_rezerwacji, liczba_rezerwacji) == 0){
+        return liczba_rezerwacji;
+    }
 
     lista_rezerwacji[liczba_rezerwacji] = nowa;
     liczba_rezerwacji++;
   
-
-
     printf("\nID rezerwacji: %d\nZarezerwowales sale: %d, dnia %d, o godzinie %d\n",nowa.id, nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
 
     return liczba_rezerwacji;
@@ -148,6 +158,8 @@ void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pli
         printf("Błąd przy zapisie do pliku\n");
     }
 }
+
+
 
 int main() {
     int wybor;
