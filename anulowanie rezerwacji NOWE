@@ -1,0 +1,17 @@
+void anuluj_rezerwacje(int id_rez, Data data) {
+    for (int i = 0; i < liczba_rezerwacji; i++) {
+        if (rezerwacje[i].id_rezerwacji == id_rez && rezerwacje[i].data.dzien == data.dzien &&
+            rezerwacje[i].data.miesiac == data.miesiac && rezerwacje[i].data.rok == data.rok &&
+            rezerwacje[i].data.godzina == data.godzina) {
+            for (int j = i; j < liczba_rezerwacji - 1; j++) {
+                rezerwacje[j] = rezerwacje[j + 1];
+            }
+            liczba_rezerwacji--;
+            
+            // Dodatkowo usuwamy rezerwację z pliku
+            usun_rezerwacje_z_pliku("rezerwacje.txt", id_rez, data);
+            
+            break;
+        }
+    }
+}
