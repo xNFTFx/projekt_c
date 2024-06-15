@@ -15,46 +15,53 @@
 // }
 
 
-void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pliku, int liczba_rezerwacji) {
-    FILE* plik = fopen(nazwa_pliku, "a"); // Otwórz plik w trybie dodawania (append)
-    if (plik != NULL) {
-        for (int i = 0; i < liczba_rezerwacji; i++) {
-            fprintf(plik, "%d %d %d %d\n",
-                rezerwacje[i].id, rezerwacje[i].sala_rezerwowana.nr_sali, rezerwacje[i].data_rezerwacji.dzien, rezerwacje[i].data_rezerwacji.h);
-        }
-        fclose(plik);
-        printf("Zapisano rezerwacje do pliku %s\n", nazwa_pliku);
-    } else {
-        printf("Błąd przy zapisie do pliku\n");
-    }
-}
 
-void nowa_rezerwacja(){
+
+int nowa_rezerwacja(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
+
     Rezerwacja nowa;
-    // funkcja nowy_numer potrzebna, ktora bd okreslala nr id nowej rezerwacji
+    printf("%d - %d\n", liczba_rezerwacji, lista_rezerwacji[liczba_rezerwacji].id);
+    nowa.id = lista_rezerwacji[liczba_rezerwacji].id + 1;
+
     printf("Podaj dzien, kiedy chcesz zarezerwowac sale: ");
-    if(scanf("%d", &nowa.data_rezerwacji.dzien) !=1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien <1){
-        printf("zla data\n\n");
-        return;
+    if (scanf("%d", &nowa.data_rezerwacji.dzien) != 1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien < 1) {
+        printf("Zla data\n\n");
+        return liczba_rezerwacji;
     }
+
     printf("Podaj godzine, kiedy chcesz zarezerwowac sale: ");
-    if(scanf("%d", &nowa.data_rezerwacji.h) !=1 || nowa.data_rezerwacji.h > 16 || nowa.data_rezerwacji.h <10){
-        printf("zla godzina\\nn");
-        return;
+    if (scanf("%d", &nowa.data_rezerwacji.h) != 1 || nowa.data_rezerwacji.h > 16 || nowa.data_rezerwacji.h < 10) {
+        printf("Zla godzina\n\n");
+        return liczba_rezerwacji;
     }
-    printf("Wybierz ktora z podanych sal chcesz zarezerwowac: ");
-    // funkcja wolne_sale(), ktora bedzie wyswietlala wolne sale i zwracala tabele wolnych sal
-    if(scanf("%d", &nowa.sala_rezerwowana.nr_sali) !=1 )//trzeba dopisac warunek na sprawdzenie czy sala jest zawarta w wolnych salach
-    {
+
+    printf("Podaj numer sali, ktora chcesz zarezerwowac: ");
+    if (scanf("%d", &nowa.sala_rezerwowana.nr_sali) != 1) {
         printf("Nie ma mozliwosci wybrania tej sali\n\n");
-        return;
+        return liczba_rezerwacji;
     }
-    printf("Zarezerwowales sale: %d, dnia %d, o godzinie %d", nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h); //dodac nr rezerwacji trza
-    //trzeba dopisac wypisanie pliku z potwierdzeniem rezerwacji
+    
+    //dodaj weryfikacje tego czy sala nie byla juz zarezerwowana
+
+    lista_rezerwacji[liczba_rezerwacji] = nowa;
+    liczba_rezerwacji++;
+  
+
+
+    printf("ID rezerwacji: %d\nZarezerwowales sale: %d, dnia %d, o godzinie %d\n",nowa.id, nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
+
+    return liczba_rezerwacji;
 }
 
 
 //czesc testowa
 int main(){
-    nowa_rezerwacja();
+    Rezerwacja lista_rezerwacji[1000];
+    int liczba_rezerwacji = 0;
+    liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
+    liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
+    liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
+    for(int i = 0; i<3; i++){
+        printf("%d %d %d %d\n", lista_rezerwacji[i].id, lista_rezerwacji[i].sala_rezerwowana, lista_rezerwacji[i].data_rezerwacji.dzien, lista_rezerwacji[i].data_rezerwacji.h);
+    }
 }

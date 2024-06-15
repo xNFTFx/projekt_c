@@ -4,17 +4,7 @@
 #include <stdio.h>
 #include "struktury.h"
 
-#define MAX_REZERWACJI 100
-
-// Globalne zmienne
-Rezerwacja lista_rezerwacji[MAX_REZERWACJI];
-int liczba_rezerwacji = 0;
-
-// Deklaracja funkcji
-void pokaz_wszystkie_rezerwacje();
-void pokaz_rezerwacje_z_dnia();
-
-void pokaz_wszystkie_rezerwacje() {
+void pokaz_wszystkie_rezerwacje(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
     if (liczba_rezerwacji == 0) {
         printf("Brak rezerwacji.\n");
         return;
@@ -30,7 +20,7 @@ void pokaz_wszystkie_rezerwacje() {
     }
 }
 
-void pokaz_rezerwacje_z_dnia() {
+void pokaz_rezerwacje_z_dnia(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji) {
     int dzien;
     printf("Podaj dzien, dla ktorego chcesz zobaczyc rezerwacje: ");
     if (scanf("%d", &dzien) != 1 || dzien < 1 || dzien > 30) {
@@ -55,41 +45,16 @@ void pokaz_rezerwacje_z_dnia() {
     }
 }
 
-void nowa_rezerwacja() {
-    if (liczba_rezerwacji >= MAX_REZERWACJI) {
-        printf("Nie mozna dodac wiecej rezerwacji.\n");
-        return;
-    }
-
-    Rezerwacja nowa;
-    nowa.id = liczba_rezerwacji + 1; // Przykład nadawania ID
-
-    printf("Podaj dzien, kiedy chcesz zarezerwowac sale: ");
-    if (scanf("%d", &nowa.data_rezerwacji.dzien) != 1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien < 1) {
-        printf("Zla data\n\n");
-        return;
-    }
-
-    printf("Podaj godzine, kiedy chcesz zarezerwowac sale: ");
-    if (scanf("%d", &nowa.data_rezerwacji.h) != 1 || nowa.data_rezerwacji.h > 16 || nowa.data_rezerwacji.h < 10) {
-        printf("Zla godzina\n\n");
-        return;
-    }
-
-    printf("Podaj numer sali, ktora chcesz zarezerwowac: ");
-    if (scanf("%d", &nowa.sala_rezerwowana.nr_sali) != 1) {
-        printf("Nie ma mozliwosci wybrania tej sali\n\n");
-        return;
-    }
-
-    lista_rezerwacji[liczba_rezerwacji] = nowa;
-    liczba_rezerwacji++;
-
-    printf("Zarezerwowales sale: %d, dnia %d, o godzinie %d\n", nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
-}
 
 int main() {
     int wybor;
+
+    //funkcja odczytujaca plik
+
+    Rezerwacja lista_rezerwacji[1000];
+    int liczba_rezerwacji = 0;
+
+
     do {
         printf("\nSystem rezerwacji sal\n");
         printf("1. Dodaj rezerwacje\n");
@@ -100,15 +65,16 @@ int main() {
         printf("0. Wyjdz\n");
         printf("Wybierz opcje: ");
         scanf("%d", &wybor);
+        printf("\n");
 
         if (wybor == 1) {
-            nowa_rezerwacja();
+
         } else if (wybor == 2) {
             // kod do anulowania rezerwacji
         } else if (wybor == 3) {
-            pokaz_wszystkie_rezerwacje();
+            pokaz_wszystkie_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
         } else if (wybor == 4) {
-            pokaz_rezerwacje_z_dnia();
+            
         } else if (wybor == 6) {
             char nazwa_pliku[50];
             printf("Podaj nazwe pliku do zapisu: ");
@@ -121,3 +87,6 @@ int main() {
 
     return 0;
 }
+
+
+
