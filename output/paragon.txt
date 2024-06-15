@@ -1,0 +1,6 @@
+*************
+Rezerwacja  1
+  Sala: 144
+  Dzień: 12
+ Godzina: 13
+*************
