@@ -7,10 +7,9 @@ void usun_rezerwacje_z_pliku(const char* nazwa_pliku, int id_rez, Data data) {
     if (plik != NULL && tmp != NULL) {
         char linia[256];
         while (fgets(linia, sizeof(linia), plik)) {
-            int rez_id, sala_id, dzien, miesiac, rok, godzina;
-            char nazwisko[50];
-            if (sscanf(linia, "ID Rezerwacji: %d, ID Sali: %d, Data: %02d-%02d-%04d %02d:00, Nazwisko: %49s\n",
-                       &rez_id, &sala_id, &dzien, &miesiac, &rok, &godzina, nazwisko) == 7) {
+            int rez_id, sala_id, dzien, godzina;
+            if (sscanf(linia, "%d %d %d %d/n",
+                       &rez_id, &sala_id, &dzien, &godzina) == 4) {
                 if (!(rez_id == id_rez && dzien == data.dzien && godzina == data.h)) {
                     fputs(linia, tmp);
                 }

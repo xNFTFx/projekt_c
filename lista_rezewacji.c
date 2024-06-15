@@ -23,7 +23,7 @@ void pokaz_wszystkie_rezerwacje() {
     printf("Lista wszystkich rezerwacji:\n");
     for (int i = 0; i < liczba_rezerwacji; i++) {
         printf("ID Rezerwacji: %d, Sala: %d, Dzien: %d, Godzina: %d\n", 
-               lista_rezerwacji[i].id_rezerwacji, 
+               lista_rezerwacji[i].id, 
                lista_rezerwacji[i].sala_rezerwowana.nr_sali, 
                lista_rezerwacji[i].data_rezerwacji.dzien, 
                lista_rezerwacji[i].data_rezerwacji.h);
@@ -43,7 +43,7 @@ void pokaz_rezerwacje_z_dnia() {
     for (int i = 0; i < liczba_rezerwacji; i++) {
         if (lista_rezerwacji[i].data_rezerwacji.dzien == dzien) {
             printf("ID Rezerwacji: %d, Sala: %d, Godzina: %d\n", 
-                   lista_rezerwacji[i].id_rezerwacji, 
+                   lista_rezerwacji[i].id, 
                    lista_rezerwacji[i].sala_rezerwowana.nr_sali, 
                    lista_rezerwacji[i].data_rezerwacji.h);
             znaleziono = 1;
@@ -62,7 +62,7 @@ void nowa_rezerwacja() {
     }
 
     Rezerwacja nowa;
-    nowa.id_rezerwacji = liczba_rezerwacji + 1; // Przykład nadawania ID
+    nowa.id = liczba_rezerwacji + 1; // Przykład nadawania ID
 
     printf("Podaj dzien, kiedy chcesz zarezerwowac sale: ");
     if (scanf("%d", &nowa.data_rezerwacji.dzien) != 1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien < 1) {
