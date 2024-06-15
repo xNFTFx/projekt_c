@@ -1,3 +1,5 @@
+#include "struktury.h"
+
 void sortuj_rezerwacje(Rezerwacja rezerwacje[], int n) {
     int i, j;
     for (i = 0; i < n - 1; i++) {

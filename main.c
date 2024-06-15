@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+
 int main() {
     int wybor;
     do {
@@ -7,7 +8,7 @@ int main() {
         printf("1. Dodaj rezerwacje\n");
         printf("2. Anuluj rezerwacje\n");
         printf("3. Pokaz wszystkie rezerwacje\n");
-        printf("6. Zapisz rezerwacje do pliku\n");
+        printf("4. Pokaz rezerwacje z danego dnia\n");
         printf("0. Wyjdz\n");
         printf("Wybierz opcje: ");
         scanf("%d", &wybor);
@@ -19,17 +20,17 @@ int main() {
         } else if (wybor == 3) {
             // kod do pokazywania wszystkich rezerwacji
         } else if (wybor == 4) {
-            
+            //
         } else if (wybor == 5) {
-            
+            //
         } else if (wybor == 6) {
             char nazwa_pliku[50]; /////// zapis pliku
             printf("Podaj nazwe pliku do zapisu: ");
-            scanf("%49s", nazwa_pliku, (unsigned)_countof(nazwa_pliku));
-            zapis_rezerwacji_do_pliku_txt(nazwa_pliku);
+            // scanf("%49s", nazwa_pliku, (unsigned)_countof(nazwa_pliku));
+            // zapis_rezerwacji_do_pliku_txt(nazwa_pliku);
         }
         else{
-            printf("Podales zla wartosc");
+            printf("Podales zla wartosc\n\n");
         }
     } while (wybor != 0);
 

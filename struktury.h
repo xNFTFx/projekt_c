@@ -10,7 +10,7 @@ typedef struct Sala{
 }Sala;
 
 typedef struct Rezerwacja{
-    int id_rezerwacji;
+    int id;
     Sala sala_rezerwowana;
     Data data_rezerwacji;
 }Rezerwacja;

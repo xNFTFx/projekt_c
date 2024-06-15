@@ -3,15 +3,30 @@
 #include <ctype.h>
 #include "struktury.h"
 
-int wolne_sale(FILE *plik, int h, int dzien){
-    Rezerwacja rezerwacje[10];
-    int n = 0;
-    while (!feof(plik))
-    {
-        fscanf(plik, "%d %d %d %d", rezerwacje[n].id_rezerwacji, rezerwacje[n].sala_rezerwowana.nr_sali, rezerwacje[n].data_rezerwacji.dzien, rezerwacje[n].data_rezerwacji.h);
-        n++;
+// int wolne_sale(FILE *plik, int h, int dzien){
+//     Rezerwacja rezerwacje[10];
+//     int n = 0;
+//     while (!feof(plik))
+//     {
+//         fscanf(plik, "%d %d %d %d", rezerwacje[n].id_rezerwacji, rezerwacje[n].sala_rezerwowana.nr_sali, rezerwacje[n].data_rezerwacji.dzien, rezerwacje[n].data_rezerwacji.h);
+//         n++;
+//     }
+//     return rezerwacje;
+// }
+
+
+void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pliku, int liczba_rezerwacji) {
+    FILE* plik = fopen(nazwa_pliku, "a"); // Otwórz plik w trybie dodawania (append)
+    if (plik != NULL) {
+        for (int i = 0; i < liczba_rezerwacji; i++) {
+            fprintf(plik, "ID Rezerwacji: %d, ID Sali: %d, Data: %02d-%02d-%04d, Nazwisko: %s\n",
+                rezerwacje[i].id, rezerwacje[i].sala_rezerwowana.nr_sali, rezerwacje[i].data_rezerwacji.dzien, rezerwacje[i].data_rezerwacji.h);
+        }
+        fclose(plik);
+        printf("Zapisano rezerwacje do pliku %s\n", nazwa_pliku);
+    } else {
+        printf("Błąd przy zapisie do pliku\n");
     }
-    return rezerwacje;
 }
 
 void nowa_rezerwacja(){
