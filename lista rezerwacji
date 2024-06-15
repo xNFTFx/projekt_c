@@ -1,0 +1,123 @@
+//kod na wyswietlanie listy wszystkich rezerwacji + wyswietlanie rezerwacji z danego dnia + nowe tworzenie rezerwacji pod kątem tego kodu + jak do maina zapisac 
+//trzeba wycignac to co nas interesuje i reszte usunac bo to tylko po to zeby skosultowac nowe tworzenie rezerwacji bo jest do tych dwoch kodow kompatybilne 
+
+#include <stdio.h>
+#include "struktury.h"
+
+#define MAX_REZERWACJI 100
+
+// Globalne zmienne
+Rezerwacja lista_rezerwacji[MAX_REZERWACJI];
+int liczba_rezerwacji = 0;
+
+// Deklaracja funkcji
+void pokaz_wszystkie_rezerwacje();
+void pokaz_rezerwacje_z_dnia();
+
+void pokaz_wszystkie_rezerwacje() {
+    if (liczba_rezerwacji == 0) {
+        printf("Brak rezerwacji.\n");
+        return;
+    }
+
+    printf("Lista wszystkich rezerwacji:\n");
+    for (int i = 0; i < liczba_rezerwacji; i++) {
+        printf("ID Rezerwacji: %d, Sala: %d, Dzien: %d, Godzina: %d\n", 
+               lista_rezerwacji[i].id_rezerwacji, 
+               lista_rezerwacji[i].sala_rezerwowana.nr_sali, 
+               lista_rezerwacji[i].data_rezerwacji.dzien, 
+               lista_rezerwacji[i].data_rezerwacji.h);
+    }
+}
+
+void pokaz_rezerwacje_z_dnia() {
+    int dzien;
+    printf("Podaj dzien, dla ktorego chcesz zobaczyc rezerwacje: ");
+    if (scanf("%d", &dzien) != 1 || dzien < 1 || dzien > 30) {
+        printf("Zla data\n");
+        return;
+    }
+
+    int znaleziono = 0;
+    printf("Rezerwacje z dnia %d:\n", dzien);
+    for (int i = 0; i < liczba_rezerwacji; i++) {
+        if (lista_rezerwacji[i].data_rezerwacji.dzien == dzien) {
+            printf("ID Rezerwacji: %d, Sala: %d, Godzina: %d\n", 
+                   lista_rezerwacji[i].id_rezerwacji, 
+                   lista_rezerwacji[i].sala_rezerwowana.nr_sali, 
+                   lista_rezerwacji[i].data_rezerwacji.h);
+            znaleziono = 1;
+        }
+    }
+
+    if (!znaleziono) {
+        printf("Brak rezerwacji w tym dniu.\n");
+    }
+}
+
+void nowa_rezerwacja() {
+    if (liczba_rezerwacji >= MAX_REZERWACJI) {
+        printf("Nie mozna dodac wiecej rezerwacji.\n");
+        return;
+    }
+
+    Rezerwacja nowa;
+    nowa.id_rezerwacji = liczba_rezerwacji + 1; // Przykład nadawania ID
+
+    printf("Podaj dzien, kiedy chcesz zarezerwowac sale: ");
+    if (scanf("%d", &nowa.data_rezerwacji.dzien) != 1 || nowa.data_rezerwacji.dzien > 30 || nowa.data_rezerwacji.dzien < 1) {
+        printf("Zla data\n\n");
+        return;
+    }
+
+    printf("Podaj godzine, kiedy chcesz zarezerwowac sale: ");
+    if (scanf("%d", &nowa.data_rezerwacji.h) != 1 || nowa.data_rezerwacji.h > 16 || nowa.data_rezerwacji.h < 10) {
+        printf("Zla godzina\n\n");
+        return;
+    }
+
+    printf("Podaj numer sali, ktora chcesz zarezerwowac: ");
+    if (scanf("%d", &nowa.sala_rezerwowana.nr_sali) != 1) {
+        printf("Nie ma mozliwosci wybrania tej sali\n\n");
+        return;
+    }
+
+    lista_rezerwacji[liczba_rezerwacji] = nowa;
+    liczba_rezerwacji++;
+
+    printf("Zarezerwowales sale: %d, dnia %d, o godzinie %d\n", nowa.sala_rezerwowana.nr_sali, nowa.data_rezerwacji.dzien, nowa.data_rezerwacji.h);
+}
+
+int main() {
+    int wybor;
+    do {
+        printf("\nSystem rezerwacji sal\n");
+        printf("1. Dodaj rezerwacje\n");
+        printf("2. Anuluj rezerwacje\n");
+        printf("3. Pokaz wszystkie rezerwacje\n");
+        printf("4. Pokaz rezerwacje z konkretnego dnia\n");
+        printf("6. Zapisz rezerwacje do pliku\n");
+        printf("0. Wyjdz\n");
+        printf("Wybierz opcje: ");
+        scanf("%d", &wybor);
+
+        if (wybor == 1) {
+            nowa_rezerwacja();
+        } else if (wybor == 2) {
+            // kod do anulowania rezerwacji
+        } else if (wybor == 3) {
+            pokaz_wszystkie_rezerwacje();
+        } else if (wybor == 4) {
+            pokaz_rezerwacje_z_dnia();
+        } else if (wybor == 6) {
+            char nazwa_pliku[50];
+            printf("Podaj nazwe pliku do zapisu: ");
+            scanf("%49s", nazwa_pliku);
+            // zapis_rezerwacji_do_pliku_txt(nazwa_pliku);
+        } else if (wybor != 0) {
+            printf("Podales zla wartosc\n");
+        }
+    } while (wybor != 0);
+
+    return 0;
+}
