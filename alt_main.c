@@ -148,7 +148,7 @@ void pokaz_rezerwacje_z_dnia(Rezerwacja *lista_rezerwacji, int liczba_rezerwacji
     }
 
     int znaleziono = 0;
-    printf("Rezerwacje z dnia %d:\n", dzien);
+    printf("\nRezerwacje z dnia %d:\n", dzien);
     for (int i = 0; i < liczba_rezerwacji; i++) {
         if (lista_rezerwacji[i].data_rezerwacji.dzien == dzien) {
             printf("ID Rezerwacji: %d, Sala: %d, Godzina: %d\n", 
@@ -184,7 +184,7 @@ void zapis_rezerwacji_do_pliku_txt(Rezerwacja *rezerwacje, const char* nazwa_pli
 //MENU
 
 int main() {
-    int wybor;
+    char wybor;
 
     Rezerwacja lista_rezerwacji[1000];
 
@@ -198,21 +198,21 @@ int main() {
         printf("4. Pokaz rezerwacje z konkretnego dnia\n");
         printf("0. Wyjdz\n\n");
         printf("Wybierz opcje: ");
-        scanf("%d", &wybor);
+        scanf("%c", &wybor);
         printf("\n");
 
-        if (wybor == 1) {
+        if (wybor == '1') {
             liczba_rezerwacji = nowa_rezerwacja(lista_rezerwacji, liczba_rezerwacji);
-        } else if (wybor == 2) {
+        } else if (wybor == '2') {
             liczba_rezerwacji=anuluj_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
-        } else if (wybor == 3) {
+        } else if (wybor == '3') {
             pokaz_wszystkie_rezerwacje(lista_rezerwacji, liczba_rezerwacji);
-        } else if (wybor == 4) {
+        } else if (wybor == '4') {
             pokaz_rezerwacje_z_dnia(lista_rezerwacji, liczba_rezerwacji);
-        } else if (wybor != 0) {
+        } else if (wybor != '0') {
             printf("Podales zla wartosc\n");
         }
-    } while (wybor != 0);
+    } while (wybor != '0');
 
     zapis_rezerwacji_do_pliku_txt(lista_rezerwacji, "src.txt", liczba_rezerwacji);
 

@@ -1,6 +1,6 @@
 *************
-Rezerwacja  1
-  Sala: 144
-  Dzień: 12
- Godzina: 13
+Rezerwacja 15
+  Sala: 102
+  Dzień: 15
+ Godzina: 15
 *************
